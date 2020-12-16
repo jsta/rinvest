@@ -4,53 +4,17 @@
 \alias{install_invest}
 \title{Install InVEST and its dependencies}
 \usage{
-install_invest(
-  method = c("auto", "virtualenv", "conda"),
-  conda = "auto",
-  version = "default",
-  envname = NULL,
-  extra_packages = NULL,
-  restart_session = TRUE,
-  conda_python_version = "3.6",
-  ...
-)
+install_invest(restart_session = TRUE)
 }
 \arguments{
-\item{method}{Installation method. By default, "auto" automatically finds a
-method that will work in the local environment. Change the default to force
-a specific installation method. Note that the "virtualenv" method is not
-available on Windows. Note also that since this command runs without
-privilege the "system" method is available only on Windows.}
-
-\item{conda}{The path to a \code{conda} executable. Use \code{"auto"} to allow \code{reticulate} to
-automatically find an appropriate \code{conda} binary. See \strong{Finding Conda} for more details.}
-
-\item{version}{InVEST version to install.
-
-  You can also provide a full major.minor.patch specification (e.g. "1.1.0").
-
-  Alternatively, you can provide the full URL to an installer binary (e.g.
-  for a nightly binary).}
-
-\item{envname}{Name of Python environment to install within}
-
-\item{extra_packages}{Additional Python packages to install along with
-InVEST.}
-
 \item{restart_session}{Restart R session after installing (note this will
 only occur within RStudio).}
-
-\item{conda_python_version}{the python version installed in the created conda
-environment. Python 3.6 is installed by default.}
-
-\item{...}{other arguments passed to [reticulate::conda_install()] or
-[reticulate::virtualenv_install()].}
 }
 \description{
 Install InVEST and its dependencies
 }
 \examples{
 \dontrun{
-install_invest()
+rinvest::install_invest()
 }
 }

@@ -1,5 +1,8 @@
 #' Install InVEST and its dependencies
 #'
+#' @param restart_session Restart R session after installing (note this will
+#'   only occur within RStudio).
+#'
 #' @importFrom rstudioapi restartSession
 #'
 #' @export
@@ -11,7 +14,7 @@ install_invest <- function(# method = c("auto", "virtualenv", "conda"),
                              # version = "default",
                              # envname = NULL,
                              # extra_packages = NULL,
-                             # restart_session = TRUE,
+                             restart_session = TRUE
                              # conda_python_version = "3.6",
                                ) {
 
