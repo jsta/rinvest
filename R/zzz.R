@@ -5,5 +5,7 @@
 invest <- NULL
 
 .onLoad <- function(libname, pkgname) {
-  invest <<- reticulate::import("natcap.invest", delay_load = TRUE)
+  tryCatch(
+  invest <<- reticulate::import("natcap.invest", delay_load = TRUE),
+  error = Sys.sleep(0))
 }
