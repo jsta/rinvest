@@ -81,7 +81,7 @@ jobs:
         run: |
           Rscript -e "reticulate::conda_create('r-reticulate', packages = c('python==3.6.9'))"
           Rscript -e "remotes::install_local()"
-          Rscript -e "rinvest::install_invest(version = Sys.getenv('INVEST_VERSION'))"
+          Rscript -e "rinvest::install_invest(version = '3.9.0')"
 
       - name: Check
         env:
