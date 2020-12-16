@@ -18,7 +18,7 @@
 #' @param envname Name of Python environment to install within
 #'
 #' @param extra_packages Additional Python packages to install along with
-#'   TensorFlow.
+#'   InVEST.
 #'
 #' @param restart_session Restart R session after installing (note this will
 #'   only occur within RStudio).
@@ -29,9 +29,12 @@
 #' @param ... other arguments passed to [reticulate::conda_install()] or
 #'   [reticulate::virtualenv_install()].
 #'
-#' @importFrom jsonlite fromJSON
+#' @importFrom rstudioapi restartSession
 #'
 #' @export
+#' @examples \dontrun{
+#' install_invest()
+#' }
 install_invest <- function(method = c("auto", "virtualenv", "conda"),
                                conda = "auto",
                                version = "default",
@@ -50,10 +53,8 @@ install_invest <- function(method = c("auto", "virtualenv", "conda"),
   method <- match.arg(method)
 
   # unroll version
-  ver <- parse_invest_version(version)
-
+  ver     <- parse_invest_version(version)
   version <- ver$version
-  gpu <- ver$gpu
   package <- ver$package
 
   extra_packages <- unique(extra_packages)
@@ -76,110 +77,26 @@ install_invest <- function(method = c("auto", "virtualenv", "conda"),
   invisible(NULL)
 }
 
-parse_tensorflow_version <- function(version) {
+#' @noRd
+parse_invest_version <- function(version) {
 
-  default_version <- "2.2.0"
+  default_version <- "3.9.0"
 
   ver <- list(
     version = default_version,
-    gpu = NULL,
     package = NULL
   )
 
   if (version == "default") {
 
-    ver$package <- paste0("tensorflow==", ver$version)
-
-    # default gpu version
-  } else if (version == "gpu") {
-
-    ver$gpu <- TRUE
-    ver$package <- paste0("tensorflow-gpu==", ver$version)
-
-    # gpu qualifier provided
-  } else if (grepl("-gpu$", version)) {
-
-    split <- strsplit(version, "-")[[1]]
-    ver$version <- split[[1]]
-    ver$gpu <- TRUE
-
-    # default cpu version
-  } else if (version == "cpu") {
-
-    ver$gpu <- FALSE
-    ver$package <- paste0("tensorflow-cpu==", ver$version)
-
-    # cpu qualifier provided
-  } else if (grepl("-cpu$", version)) {
-
-    split <- strsplit(version, "-")[[1]]
-    ver$version <- split[[1]]
-    ver$gpu <- FALSE
+    ver$package <- paste0("natcap.invest==", ver$version)
 
 
-    # full path to whl.
-  } else if (grepl("^.*\\.whl$", version)) {
-
-    ver$gpu <- NA
-    ver$version <- NA
-
-    if (grepl("^http", version))
-      ver$package <- version
-    else
-      ver$package <- normalizePath(version)
-
-    # another version
   } else {
 
     ver$version <- version
 
   }
 
-  # find the right package for nightly and other versions
-  if (is.null(ver$package)) {
-
-    if (ver$version == "nightly") {
-
-      if (is.null(ver$gpu)) {
-        ver$package <- "tf-nightly"
-      }
-      else if (ver$gpu) {
-        ver$package <- "tf-nightly-gpu"
-      } else {
-        ver$package <- "tf-nightly-cpu"
-      }
-
-    } else {
-
-      if (is.null(ver$gpu)) {
-        ver$package <- paste0("tensorflow==", ver$version)
-      } else if (ver$gpu) {
-        ver$package <- paste0("tensorflow-gpu==", ver$version)
-      } else  {
-        ver$package <- paste0("tensorflow-cpu==", ver$version)
-      }
-
-    }
-
-  }
-
   ver
-}
-
-
-#' Install additional Python packages alongside TensorFlow
-#'
-#' This function is deprecated. Use the `extra_packages` argument to
-#' `install_tensorflow()` to install additional packages.
-#'
-#' @param packages Python packages to install
-#' @param conda Path to conda executable (or "auto" to find conda using the PATH
-#'   and other conventional install locations). Only used when TensorFlow is
-#'   installed within a conda environment.
-#'
-#' @export
-install_tensorflow_extras <- function(packages, conda = "auto") {
-  message("Extra packages not installed (this function is deprecated). \n",
-          "Use the extra_packages argument to install_tensorflow() to ",
-          "install additional packages.")
 }
