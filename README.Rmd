@@ -68,3 +68,9 @@ plot(raster("workspace/p_export.tif"), main = "P export")
 ```
 
 ![](man/figures/README-unnamed-chunk-3-1.png)
+
+## Links
+
+http://releases.naturalcapitalproject.org/invest-userguide/latest/
+
+https://community.naturalcapitalproject.org/
