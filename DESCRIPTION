@@ -1,16 +1,23 @@
 Package: rinvest
 Type: Package
-Title: What the Package Does (Title Case)
+Title: InVEST: ecosystem service and valuation models
 Version: 0.1
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: Wrapper for the 'natcap.invest` python package
+  <https://github.com/natcap/invest>, with example data for running 
+  the Nutrient Delivery Ratio (NDR) model. 
 License: GPL
 Encoding: UTF-8
 LazyData: true
 Authors@R: person("Joseph", "Stachelek", comment = c(ORCID = "0000-0002-5924-2464"), role = c("aut", "cre"), 
  email = "stachel2@msu.edu")
-Imports: reticulate,
-  rstudioapi
+Depends: reticulate
+Imports: rstudioapi
+Suggests: 
+    raster,
+    sf,
+    knitr,
+    rmarkdown
 RoxygenNote: 7.1.1
+URL: https://github.com/jsta/rinvest
+BugReports: https://github.com/jsta/rinvest/issues
+VignetteBuilder: knitr

@@ -4,9 +4,11 @@
 \alias{install_invest}
 \title{Install InVEST and its dependencies}
 \usage{
-install_invest(restart_session = TRUE)
+install_invest(envname = "r-reticulate", restart_session = TRUE)
 }
 \arguments{
+\item{envname}{Name of Python environment to install within}
+
 \item{restart_session}{Restart R session after installing (note this will
 only occur within RStudio).}
 }

@@ -1,5 +1,7 @@
 #' Install InVEST and its dependencies
 #'
+#' @param envname Name of Python environment to install within
+#'
 #' @param restart_session Restart R session after installing (note this will
 #'   only occur within RStudio).
 #'
@@ -9,41 +11,10 @@
 #' @examples \dontrun{
 #' rinvest::install_invest()
 #' }
-install_invest <- function(# method = c("auto", "virtualenv", "conda"),
-                             # conda = "auto",
-                             # version = "default",
-                             # envname = NULL,
-                             # extra_packages = NULL,
-                             restart_session = TRUE
-                             # conda_python_version = "3.6",
-                               ) {
+install_invest <- function(envname = "r-reticulate",
+                           restart_session = TRUE) {
 
-  # verify 64-bit
-  # if (.Machine$sizeof.pointer != 8) {
-  #   stop("Unable to install InVEST on this platform.",
-  #        "Binary installation is only available for 64-bit platforms.")
-  # }
-  #
-  # method <- match.arg(method)
-
-  # unroll version
-  # ver     <- parse_invest_version(version)
-  # version <- ver$version
-  # package <- ver$package
-  #
-  # extra_packages <- unique(extra_packages)
-
-  # reticulate::py_install(
-  #   packages       = c(package, extra_packages),
-  #   envname        = envname,
-  #   method         = method,
-  #   conda          = conda,
-  #   python_version = conda_python_version,
-  #   pip            = TRUE,
-  #   ...
-  # )
-
-  # py_install can't accept a mix of pip and conda packages...
+  # seems reticulate::py_install can't accept a mix of pip and conda packages!
   system2("conda", paste0("env update -f ", system.file("requirements-all.yml", package = "rinvest")))
 
   cat("\nInstallation complete.\n\n")
@@ -52,4 +23,10 @@ install_invest <- function(# method = c("auto", "virtualenv", "conda"),
     rstudioapi::restartSession()
 
   invisible(NULL)
+}
+
+# is_invest_installed()
+is_invest_installed <- function(){
+  reticulate::use_condaenv(condaenv = "r-reticulate", required = TRUE)
+  tryCatch(reticulate::import("natcap.invest"), error = function(x) FALSE) != FALSE
 }
