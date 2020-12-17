@@ -18,7 +18,5 @@ invest <- NULL
   #   reticulate::use_condaenv(condaenv = "r-reticulate", required = TRUE),
   #   error = Sys.sleep(0))
 
-  tryCatch(
-  invest <<- reticulate::import("natcap.invest", delay_load = TRUE),
-  error = Sys.sleep(0))
+  invest <<- reticulate::import("natcap.invest", delay_load = TRUE)
 }

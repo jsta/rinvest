@@ -38,6 +38,17 @@ jobs:
           install.packages("pkgdown", type = "binary")
         shell: Rscript {0}
 
+      - name: Install Python
+        run: |
+          Rscript -e "try(remotes::install_github('rstudio/reticulate'))"
+          Rscript -e "try(reticulate::install_miniconda())"
+          Rscript -e "try(reticulate::conda_create('r-reticulate'))"
+
+      - name: Install InVEST
+        run: |
+          Rscript -e "try(remotes::install_local())"
+          Rscript -e "try(rinvest::install_invest())"
+
       - name: Install package
         run: R CMD INSTALL .
 
