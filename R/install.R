@@ -15,7 +15,7 @@ install_invest <- function(envname = "r-reticulate",
                            restart_session = TRUE) {
 
   # seems reticulate::py_install can't accept a mix of pip and conda packages!
-  system(paste0("sudo conda ", "env update -f ", system.file("requirements-all.yml", package = "rinvest")))
+  system(paste0("conda ", "env update -f ", system.file("requirements-all.yml", package = "rinvest")))
 
   cat("\nInstallation complete.\n\n")
 
