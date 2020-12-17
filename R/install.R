@@ -12,12 +12,18 @@
 #' rinvest::install_invest()
 #' }
 install_invest <- function(envname = "r-reticulate",
+                           gh_action_runner = FALSE,
                            restart_session = TRUE) {
 
   # seems reticulate::py_install can't accept a mix of pip and conda packages!
-  # https://github.com/conda/conda/issues/7227#issuecomment-580212549
-  system("conda clean -a")
-  system(paste0("conda ", "env create -f ", system.file("requirements-all.yml", package = "rinvest")))
+  if(gh_action_runner){
+    print(system(Sys.getenv("USERNAME")))
+    system(paste0("conda ", "env create --prefix /Users/runner/Library/r-miniconda/envs -f ",
+                  system.file("requirements-all.yml", package = "rinvest")))
+
+  }else{
+    system(paste0("conda ", "env create -f ", system.file("requirements-all.yml", package = "rinvest")))
+  }
 
   cat("\nInstallation complete.\n\n")
 
