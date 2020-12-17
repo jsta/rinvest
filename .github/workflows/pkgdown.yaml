@@ -45,6 +45,7 @@ jobs:
       - name: Install InVEST
         run: |
           Rscript -e "try(remotes::install_local())"
+          sudo chown -R runner /usr/local/miniconda
           Rscript -e "try(rinvest::install_invest())"
 
       - name: Install package
