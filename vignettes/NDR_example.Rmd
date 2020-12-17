@@ -14,16 +14,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
-library(rinvest)
-```
-
----
-output: github_document
----
-
 ```{r example}
 library(rinvest)
+reticulate::use_condaenv("r-reticulate", required = TRUE)
 ndr <- invest$ndr$ndr
 data_dir <- system.file("extdata/NDR", package = "rinvest")
 
