@@ -23,10 +23,10 @@ install_invest()
 
 ``` r
 library(rinvest)
-ndr <- invest$ndr$ndr
-data_dir <- system.file("extdata/NDR", package = "rinvest")
+#> Loading required package: reticulate
 
-args <- dict(
+data_dir <- system.file("extdata/NDR", package = "rinvest")
+args <- list(
   "workspace_dir" = "workspace",
   "dem_path" = paste0(data_dir, "/DEM_gura.tif"),
   "lulc_path" = paste0(data_dir, "/land_use_gura.tif"),
@@ -41,15 +41,48 @@ args <- dict(
   "subsurface_critical_length_p" = 25
 )
 
-unlink("workspace", recursive = TRUE)
-ndr$execute(args)
+ndr_file_paths <- ndr(args, overwrite = TRUE)
 ```
 
 ``` r
-dir("workspace")
-#> [1] "intermediate_outputs"      "p_export.tif"             
-#> [3] "watershed_results_ndr.dbf" "watershed_results_ndr.prj"
-#> [5] "watershed_results_ndr.shp" "watershed_results_ndr.shx"
+ndr_file_paths
+#>  [1] "workspace/intermediate_outputs"                                   
+#>  [2] "workspace/intermediate_outputs/cache_dir"                         
+#>  [3] "workspace/intermediate_outputs/cache_dir/aligned_dem.tif"         
+#>  [4] "workspace/intermediate_outputs/cache_dir/aligned_lulc.tif"        
+#>  [5] "workspace/intermediate_outputs/cache_dir/aligned_runoff_proxy.tif"
+#>  [6] "workspace/intermediate_outputs/cache_dir/export_p.pickle"         
+#>  [7] "workspace/intermediate_outputs/cache_dir/filled_dem.tif"          
+#>  [8] "workspace/intermediate_outputs/cache_dir/slope.tif"               
+#>  [9] "workspace/intermediate_outputs/cache_dir/subsurface_load_p.pickle"
+#> [10] "workspace/intermediate_outputs/cache_dir/surface_load_p.pickle"   
+#> [11] "workspace/intermediate_outputs/cache_dir/taskgraph_data.db"       
+#> [12] "workspace/intermediate_outputs/crit_len_p.tif"                    
+#> [13] "workspace/intermediate_outputs/d_dn.tif"                          
+#> [14] "workspace/intermediate_outputs/d_up.tif"                          
+#> [15] "workspace/intermediate_outputs/dist_to_channel.tif"               
+#> [16] "workspace/intermediate_outputs/eff_p.tif"                         
+#> [17] "workspace/intermediate_outputs/effective_retention_p.tif"         
+#> [18] "workspace/intermediate_outputs/flow_accumulation.tif"             
+#> [19] "workspace/intermediate_outputs/flow_direction.tif"                
+#> [20] "workspace/intermediate_outputs/ic_factor.tif"                     
+#> [21] "workspace/intermediate_outputs/load_p.tif"                        
+#> [22] "workspace/intermediate_outputs/modified_load_p.tif"               
+#> [23] "workspace/intermediate_outputs/ndr_p.tif"                         
+#> [24] "workspace/intermediate_outputs/runoff_proxy_index.tif"            
+#> [25] "workspace/intermediate_outputs/s_accumulation.tif"                
+#> [26] "workspace/intermediate_outputs/s_bar.tif"                         
+#> [27] "workspace/intermediate_outputs/s_factor_inverse.tif"              
+#> [28] "workspace/intermediate_outputs/stream.tif"                        
+#> [29] "workspace/intermediate_outputs/sub_load_p.tif"                    
+#> [30] "workspace/intermediate_outputs/sub_ndr_p.tif"                     
+#> [31] "workspace/intermediate_outputs/surface_load_p.tif"                
+#> [32] "workspace/intermediate_outputs/thresholded_slope.tif"             
+#> [33] "workspace/p_export.tif"                                           
+#> [34] "workspace/watershed_results_ndr.dbf"                              
+#> [35] "workspace/watershed_results_ndr.prj"                              
+#> [36] "workspace/watershed_results_ndr.shp"                              
+#> [37] "workspace/watershed_results_ndr.shx"
 ```
 
 ``` r
@@ -58,7 +91,9 @@ library(raster)
 plot(raster("workspace/p_export.tif"), main = "P export")
 ```
 
-![](man/figures/README-unnamed-chunk-3-1.png)
+<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
+
+<!-- ![](man/figures/README-unnamed-chunk-3-1.png) -->
 
 ## Links
 

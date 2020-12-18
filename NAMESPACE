@@ -2,5 +2,6 @@
 
 export(install_invest)
 export(invest)
+export(ndr)
 importFrom(reticulate,import)
 importFrom(rstudioapi,restartSession)

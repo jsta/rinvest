@@ -30,12 +30,11 @@ install_invest()
 ```
 ## Example
 
-```{r example, eval=FALSE}
+```{r example, eval=TRUE}
 library(rinvest)
-ndr <- invest$ndr$ndr
-data_dir <- system.file("extdata/NDR", package = "rinvest")
 
-args <- dict(
+data_dir <- system.file("extdata/NDR", package = "rinvest")
+args <- list(
   "workspace_dir" = "workspace",
   "dem_path" = paste0(data_dir, "/DEM_gura.tif"),
   "lulc_path" = paste0(data_dir, "/land_use_gura.tif"),
@@ -50,24 +49,20 @@ args <- dict(
   "subsurface_critical_length_p" = 25
 )
 
-unlink("workspace", recursive = TRUE)
-ndr$execute(args)
+ndr_file_paths <- ndr(args, overwrite = TRUE)
 ```
 
-```{r, eval=FALSE}
-dir("workspace")
-#> [1] "intermediate_outputs"      "p_export.tif"             
-#> [3] "watershed_results_ndr.dbf" "watershed_results_ndr.prj"
-#> [5] "watershed_results_ndr.shp" "watershed_results_ndr.shx"
+```{r, eval=TRUE}
+ndr_file_paths
 ```
 
-```{r, eval=FALSE}
+```{r, eval=TRUE, message=FALSE}
 library(raster)
 
 plot(raster("workspace/p_export.tif"), main = "P export")
 ```
 
-![](man/figures/README-unnamed-chunk-3-1.png)
+<!-- ![](man/figures/README-unnamed-chunk-3-1.png) -->
 
 ## Links
 
