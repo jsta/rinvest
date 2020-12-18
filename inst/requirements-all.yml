@@ -1,3 +1,4 @@
+name: r-reticulate
 channels:
 - conda-forge
 - defaults
