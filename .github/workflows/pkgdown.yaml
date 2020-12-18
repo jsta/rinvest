@@ -41,6 +41,7 @@ jobs:
       - name: Install Python
         run: |
           Rscript -e "try(remotes::install_github('rstudio/reticulate'))"
+          Rscript -e "try(reticulate::install_miniconda())"
 
       - name: Install InVEST
         run: |
