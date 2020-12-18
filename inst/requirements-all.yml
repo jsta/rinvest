@@ -1,4 +1,4 @@
-name: r-reticulate
+name: r-invest
 channels:
 - conda-forge
 - defaults
