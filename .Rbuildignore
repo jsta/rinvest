@@ -4,3 +4,5 @@
 ^\.github$
 fight_reticulate.R
 workspace
+test.R
+install.R

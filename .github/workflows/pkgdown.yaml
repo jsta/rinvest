@@ -18,6 +18,8 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@v1
 
+      - uses: s-weigand/setup-conda@v1
+
       - name: Query dependencies
         run: |
           install.packages('remotes')
@@ -41,12 +43,10 @@ jobs:
       - name: Install Python
         run: |
           Rscript -e "try(remotes::install_github('rstudio/reticulate'))"
-          Rscript -e "try(reticulate::install_miniconda())"
 
       - name: Install InVEST
         run: |
           Rscript -e "try(remotes::install_local())"
-          sudo chown -R runner /usr/local/miniconda
           Rscript -e "try(rinvest::install_invest(gh_action_runner = FALSE))"
 
       - name: Install package
