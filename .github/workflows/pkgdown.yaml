@@ -46,7 +46,7 @@ jobs:
         run: |
           Rscript -e "try(remotes::install_local())"
           sudo chown -R runner /usr/local/miniconda
-          Rscript -e "try(rinvest::install_invest())"
+          Rscript -e "try(rinvest::install_invest(gh_action_runner = TRUE))"
 
       - name: Install package
         run: R CMD INSTALL .
