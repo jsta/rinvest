@@ -40,14 +40,10 @@ jobs:
           install.packages("pkgdown", type = "binary")
         shell: Rscript {0}
 
-      - name: Install Python
-        run: |
-          Rscript -e "try(remotes::install_github('rstudio/reticulate'))"
-
       - name: Install InVEST
         run: |
-          Rscript -e "try(remotes::install_local())"
-          Rscript -e "try(rinvest::install_invest(gh_action_runner = FALSE))"
+          Rscript -e "remotes::install_local()"
+          Rscript -e "rinvest::install_invest(gh_action_runner = FALSE)"
 
       - name: Install package
         run: R CMD INSTALL .

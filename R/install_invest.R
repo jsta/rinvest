@@ -8,7 +8,6 @@
 #'   only occur within RStudio).
 #'
 #' @importFrom rstudioapi restartSession
-#'
 #' @export
 #' @examples \dontrun{
 #' rinvest::install_invest()
@@ -21,7 +20,7 @@ install_invest <- function(envname = "r-reticulate",
   if(gh_action_runner){
     system(paste0("conda ", "env update --prefix /Users/runner/Library/r-miniconda/envs/r-reticulate -f ", system.file("requirements-all.yml", package = "rinvest")))
   }else{
-  system(paste0("conda ", "env create -f ", system.file("requirements-all.yml", package = "rinvest")))
+    system(paste0("conda ", "env create -f ", system.file("requirements-all.yml", package = "rinvest")))
   }
 
   cat("\nInstallation complete.\n\n")
