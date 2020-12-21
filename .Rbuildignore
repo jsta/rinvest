@@ -7,3 +7,5 @@ workspace
 test.R
 install.R
 parsnip.R
+^data-raw$
+workspace_temp

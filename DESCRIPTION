@@ -10,11 +10,14 @@ Encoding: UTF-8
 LazyData: true
 Authors@R: person("Joseph", "Stachelek", comment = c(ORCID = "0000-0002-5924-2464"), role = c("aut", "cre"), 
  email = "stachel2@msu.edu")
-Depends: reticulate
-Imports: rstudioapi
-Suggests: 
-    raster,
-    sf,
+Depends: 
+    reticulate,
+    R (>= 2.10)
+Imports: rstudioapi,
+  raster,
+  snakecase, 
+  stringr
+Suggests: sf,
     knitr,
     rmarkdown
 RoxygenNote: 7.1.1
