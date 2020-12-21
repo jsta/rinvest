@@ -3,5 +3,8 @@
 export(install_invest)
 export(invest)
 export(ndr)
+export(ndr_p_export_total)
+importFrom(raster,cellStats)
+importFrom(raster,raster)
 importFrom(reticulate,import)
 importFrom(rstudioapi,restartSession)

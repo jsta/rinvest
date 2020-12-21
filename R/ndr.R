@@ -45,3 +45,19 @@ ndr <- function(args, overwrite = FALSE){
       recursive = TRUE, all.files = TRUE)
   res
 }
+
+#' Calculate total P export
+#'
+#' @param ndr_output output of the ndr function. vector file paths.
+#'
+#' @importFrom raster raster cellStats
+#' @export
+#'
+ndr_p_export_total <- function(ndr_output){
+  # ndr_output <- ndr_file_paths
+  p_export_path <- ndr_output[which(basename(ndr_output) == "p_export.tif")]
+
+  raster::cellStats(raster::raster(p_export_path), "sum")
+}
+
+
