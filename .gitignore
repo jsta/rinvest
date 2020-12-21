@@ -5,3 +5,7 @@
 inst/doc
 fight_reticulate.R
 workspace
+parsnip.R
+test.R
+workspace_temp/
+install.R
