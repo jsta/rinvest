@@ -7,7 +7,7 @@
 ndr_p_export_total(ndr_output)
 }
 \arguments{
-\item{ndr_output}{output of the ndr function. vector file paths.}
+\item{ndr_output}{output of the ndr function. vector of file paths.}
 }
 \description{
 Calculate total P export

@@ -35,7 +35,7 @@ ndr <- function(args, overwrite = FALSE){
 
 #' Calculate total P export
 #'
-#' @param ndr_output output of the ndr function. vector file paths.
+#' @param ndr_output output of the ndr function. vector of file paths.
 #'
 #' @importFrom raster raster cellStats
 #' @export

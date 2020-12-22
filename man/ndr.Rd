@@ -17,7 +17,7 @@ Nutrient Delivery Ratio (NDR) Model
 \examples{
 \dontrun{
 
-ndr(ndr_testdata_args)
+ndr(ndr_testdata_args, overwrite = TRUE)
 
 }
 }
