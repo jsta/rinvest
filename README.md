@@ -91,7 +91,7 @@ library(raster)
 plot(raster("workspace/p_export.tif"), main = "P export")
 ```
 
-<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
 
 <!-- ![](man/figures/README-unnamed-chunk-3-1.png) -->
 
@@ -100,3 +100,5 @@ plot(raster("workspace/p_export.tif"), main = "P export")
 <http://releases.naturalcapitalproject.org/invest-userguide/latest/>
 
 <https://community.naturalcapitalproject.org/>
+
+<https://github.com/natcap/invest>
