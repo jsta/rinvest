@@ -9,3 +9,4 @@ install.R
 parsnip.R
 ^data-raw$
 workspace_temp
+README.html
