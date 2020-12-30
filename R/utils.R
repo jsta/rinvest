@@ -2,9 +2,9 @@
 #' Create native python script and move input files to a clean directory
 #'
 #' @param args named list of ndr arguments
-#' @param conda_path path to conda executable
-#' @param conda_env path to conda environment
 #' @param out_dir path to temporary working directory
+#' @param conda_path optional. path to conda executable
+#' @param conda_env optional. path to conda environment
 #'
 #' @importFrom snakecase to_sentence_case
 #' @importFrom stringr str_extract
@@ -15,7 +15,8 @@
 #' conda_env = paste0("/home/", Sys.info()[["user"]], "/Documents/Science/Models/invest/env")
 #' )
 #' }
-collect_run_ndr <- function(args, conda_path, conda_env, out_dir = "workspace_temp"){
+collect_run_ndr <- function(args, out_dir = "workspace_temp",
+                            conda_path = NULL, conda_env = NULL){
   # args <- ndr_testdata_args
   unlink(out_dir)
   dir.create(out_dir)
@@ -38,12 +39,14 @@ collect_run_ndr <- function(args, conda_path, conda_env, out_dir = "workspace_te
     out_path
   })
 
-  envrc_path <- paste0(out_dir, "/", ".envrc")
-  unlink(envrc_path)
-  writeLines(c(
-    paste0('export PATH=', conda_path, ':$PATH'),
-    paste0('source activate ', conda_env)),
-             envrc_path)
+  if(!is.null(conda_path) & !is.null(conda_env)){
+    envrc_path <- paste0(out_dir, "/", ".envrc")
+    unlink(envrc_path)
+    writeLines(c(
+      paste0('export PATH=', conda_path, ':$PATH'),
+      paste0('source activate ', conda_env)),
+               envrc_path)
+  }
 
   py_path <- paste0(out_dir, "/", "ndr.py")
   unlink(py_path)
