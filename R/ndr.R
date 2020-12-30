@@ -38,6 +38,7 @@ ndr <- function(args, overwrite = FALSE){
 #' @param ndr_output output of the ndr function. vector of file paths.
 #'
 #' @importFrom raster raster cellStats
+#' @importFrom utils read.csv
 #' @export
 #'
 ndr_p_export_total <- function(ndr_output){
