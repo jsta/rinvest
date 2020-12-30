@@ -19,7 +19,7 @@ collect_run_ndr <- function(args, out_dir = "workspace_temp",
                             conda_path = NULL, conda_env = NULL){
   # args <- ndr_testdata_args
   unlink(out_dir)
-  dir.create(out_dir)
+  dir.create(out_dir, showWarnings = FALSE)
 
   ndr_files <- args[grep("_path", names(args))]
   lapply(seq_len(length(ndr_files)), function(i){
