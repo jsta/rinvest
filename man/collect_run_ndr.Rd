@@ -4,16 +4,21 @@
 \alias{collect_run_ndr}
 \title{Create native python script and move input files to a clean directory}
 \usage{
-collect_run_ndr(args, conda_path, conda_env, out_dir = "workspace_temp")
+collect_run_ndr(
+  args,
+  out_dir = "workspace_temp",
+  conda_path = NULL,
+  conda_env = NULL
+)
 }
 \arguments{
 \item{args}{named list of ndr arguments}
 
-\item{conda_path}{path to conda executable}
-
-\item{conda_env}{path to conda environment}
-
 \item{out_dir}{path to temporary working directory}
+
+\item{conda_path}{optional. path to conda executable}
+
+\item{conda_env}{optional. path to conda environment}
 }
 \description{
 Create native python script and move input files to a clean directory
