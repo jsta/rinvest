@@ -99,6 +99,7 @@ preflight_checks_ndr <- function(args, checks =
 #' summarize_inputs_ndr(folder_path = "inst/extdata/NDR", args = ndr_testdata_args)
 #' }
 summarize_inputs_ndr <- function(folder_path, args = NULL){
+  # folder_path <- "~/Documents/Science/JournalSubmissions/pgml_ploading/scripts/calibration/shared/"
 
   flist       <- list.files(folder_path, "*.tif",
                       include.dirs = TRUE, full.names = TRUE)
@@ -112,12 +113,10 @@ summarize_inputs_ndr <- function(folder_path, args = NULL){
 
   # tabulate the number/percent of lulc cells of each type
   # return the product of cell number and load_p
-  res <- cbind(
-    raster::unique(lulc_raster),
-    tabulate(raster::values(lulc_raster))[raster::unique(lulc_raster)]
-  ) %>%
-    data.frame(stringsAsFactors = FALSE) %>%
+  res <-
+    as.data.frame(table(raster::values(lulc_raster)), stringsAsFactors = FALSE) %>%
     setNames(c("lucode", "total_cells")) %>%
+    dplyr::mutate(lucode = as.integer(lucode)) %>%
     dplyr::mutate(percent_cells = round(prop.table(.data$total_cells) * 100, 2)) %>%
     dplyr::left_join(biophys_table, by = "lucode") %>%
     dplyr::mutate(total_load_p = .data$load_p * .data$total_cells) %>%
