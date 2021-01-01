@@ -16,7 +16,9 @@ Depends:
 Imports: rstudioapi,
   raster,
   snakecase, 
-  stringr
+  stringr,
+  dplyr,
+  rlang
 Suggests: sf,
     knitr,
     rmarkdown

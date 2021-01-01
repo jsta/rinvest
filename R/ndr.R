@@ -79,3 +79,52 @@ preflight_checks_ndr <- function(args, checks =
 }
 
 
+#' Summarize NDR inputs
+#'
+#' @param folder_path path to a folder containing ndr input files
+#' @param args optional. named list of ndr args
+#'
+#' @importFrom dplyr `%>%`
+#' @importFrom rlang .data
+#' @importFrom stats setNames
+#' @export
+#'
+#' @returns a data.frame where each row is a lulc type and there are columns
+#' for:
+#' the number of cells of each type, the percent of each type, and the product
+#' of the number of each type and load_p from the biophys table
+#'
+#' @details Assumes that the lulc raster has "lulc" in the file name.
+#' @examples \dontrun{
+#' summarize_inputs_ndr(folder_path = "inst/extdata/NDR", args = ndr_testdata_args)
+#' }
+summarize_inputs_ndr <- function(folder_path, args = NULL){
+
+  flist       <- list.files(folder_path, "*.tif",
+                      include.dirs = TRUE, full.names = TRUE)
+  lulc_path   <- flist[c(grep("lulc", flist), grep("land_use", flist))]
+  lulc_path   <- lulc_path[which.min(nchar(lulc_path))]
+  lulc_raster <- raster::raster(lulc_path)
+
+  biophys_path  <- list.files(folder_path, "biophys",
+                             include.dirs = TRUE, full.names = TRUE)
+  biophys_table <- read.csv(biophys_path, stringsAsFactors = FALSE)
+
+  # tabulate the number/percent of lulc cells of each type
+  # return the product of cell number and load_p
+  res <- cbind(
+    raster::unique(lulc_raster),
+    tabulate(raster::values(lulc_raster))[raster::unique(lulc_raster)]
+  ) %>%
+    data.frame(stringsAsFactors = FALSE) %>%
+    setNames(c("lucode", "total_cells")) %>%
+    dplyr::mutate(percent_cells = round(prop.table(.data$total_cells) * 100, 2)) %>%
+    dplyr::left_join(biophys_table, by = "lucode") %>%
+    dplyr::mutate(total_load_p = .data$load_p * .data$total_cells) %>%
+    dplyr::mutate(percent_load_p = round(prop.table(.data$total_load_p) * 100, 2)) %>%
+    dplyr::select(.data$description, .data$lucode:.data$percent_cells,
+                  .data$total_load_p, .data$percent_load_p, .data$load_p)
+
+  res
+}
+
