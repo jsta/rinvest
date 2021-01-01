@@ -12,8 +12,15 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 
 ## Installation
 
-You can install the development version from
-[GitHub](https://github.com/) with:
+Requires that Anaconda (or Miniconda) be installed and that it can be
+detected by the `reticulate` package. Check if this is the case with:
+
+``` r
+nchar(reticulate::conda_binary()) > 0
+#> [1] TRUE
+```
+
+You can install `rinvest` with:
 
 ``` r
 # install.packages("devtools")
@@ -93,9 +100,7 @@ library(raster)
 plot(raster("workspace/p_export.tif"), main = "P export")
 ```
 
-<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
-
-<!-- ![](man/figures/README-unnamed-chunk-3-1.png) -->
+![](man/figures/README-unnamed-chunk-4-1.png)
 
 ## Links
 

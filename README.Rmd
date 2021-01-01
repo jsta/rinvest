@@ -22,13 +22,20 @@ knitr::opts_chunk$set(
 
 ## Installation
 
-You can install the development version from [GitHub](https://github.com/) with:
+Requires that Anaconda (or Miniconda) be installed and that it can be detected by the `reticulate` package. Check if this is the case with:
+
+```{r }
+nchar(reticulate::conda_binary()) > 0
+```
+
+You can install `rinvest` with:
 
 ```{r, eval=FALSE}
 # install.packages("devtools")
 devtools::install_github("jsta/rinvest")
 install_invest()
 ```
+
 ## Example
 
 ```{r example, eval=TRUE}
@@ -57,13 +64,13 @@ ndr_file_paths <- ndr(args, overwrite = TRUE)
 ndr_file_paths
 ```
 
-```{r, eval=TRUE, message=FALSE}
+```{r, eval=FALSE, message=FALSE}
 library(raster)
 
 plot(raster("workspace/p_export.tif"), main = "P export")
 ```
 
-<!-- ![](man/figures/README-unnamed-chunk-3-1.png) -->
+![](man/figures/README-unnamed-chunk-4-1.png)
 
 ## Links
 
