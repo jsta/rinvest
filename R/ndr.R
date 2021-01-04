@@ -35,17 +35,23 @@ ndr <- function(args, overwrite = FALSE){
 
 #' Calculate total P export
 #'
-#' @param ndr_output output of the ndr function. vector of file paths.
+#' @param output_folder path to ndr output folder
 #'
 #' @importFrom raster raster cellStats
 #' @importFrom utils read.csv
 #' @export
 #'
-ndr_p_export_total <- function(ndr_output){
-  # ndr_output <- ndr_file_paths
-  p_export_path <- ndr_output[which(basename(ndr_output) == "p_export.tif")]
+#' @examples \dontrun{
+#' ndr_p_export_total("workspace")
+#' }
+ndr_p_export_total <- function(output_folder){
+  # output_folder <- "workspace"
+  flist <- list.files(output_folder, include.dirs = TRUE, full.names = TRUE)
+  res_path <- flist[grep(".shp", flist)]
 
-  raster::cellStats(raster::raster(p_export_path), "sum")
+  as.numeric(sf::st_read(res_path, quiet = TRUE)$p_exp_tot)
+  # p_export_path <- flist[which(basename(flist) == "p_export.tif")]
+  # raster::cellStats(raster::raster(p_export_path), "sum")
 }
 
 
@@ -116,7 +122,7 @@ summarize_inputs_ndr <- function(folder_path, args = NULL){
   res <-
     as.data.frame(table(raster::values(lulc_raster)), stringsAsFactors = FALSE) %>%
     setNames(c("lucode", "total_cells")) %>%
-    dplyr::mutate(lucode = as.integer(lucode)) %>%
+    dplyr::mutate(lucode = as.integer(.data$lucode)) %>%
     dplyr::mutate(percent_cells = round(prop.table(.data$total_cells) * 100, 2)) %>%
     dplyr::left_join(biophys_table, by = "lucode") %>%
     dplyr::mutate(total_load_p = .data$load_p * .data$total_cells) %>%
@@ -127,3 +133,38 @@ summarize_inputs_ndr <- function(folder_path, args = NULL){
   res
 }
 
+#' Summarize NDR outputs
+#'
+#' @param folder_path path to a folder containing ndr output files
+#'
+#' @export
+#'
+#' @examples \dontrun{
+#' output_summary <- summarize_outputs_ndr(folder_path = "workspace")
+#' }
+summarize_outputs_ndr <- function(folder_path){
+  # folder_path <- "workspace"
+
+  # the average areal P load in the catchment
+  flist <- list.files(folder_path, include.dirs = TRUE, full.names = TRUE)
+  res_path <- flist[grep(".shp", flist)]
+  res_shp <- sf::st_read(res_path, quiet = TRUE)
+  avg_areal_p_load <- as.numeric(res_shp$surf_p_ld / sf::st_area(res_shp)) # kg / m2
+  avg_areal_p_load <- avg_areal_p_load * 1000 # g / m2
+
+  # total P export
+  total_p_export <- ndr_p_export_total("workspace")
+
+  # average areal P export of the catchment
+  avg_areal_p_export <- total_p_export / sf::st_area(res_shp) # kg / m2
+  avg_areal_p_export <- avg_areal_p_export * 1000 # g / m2
+
+  # a list of output rasters
+  flist       <- list.files(paste0(folder_path, "/intermediate_outputs"),
+                            pattern = "*.tif",
+                            include.dirs = TRUE, full.names = TRUE)
+  rstack <- raster::stack(flist)
+
+  list(avg_areal_p_load = avg_areal_p_load, total_p_export = total_p_export,
+              avg_areal_p_export = avg_areal_p_export, rstack = rstack)
+}

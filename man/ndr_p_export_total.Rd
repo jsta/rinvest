@@ -4,11 +4,16 @@
 \alias{ndr_p_export_total}
 \title{Calculate total P export}
 \usage{
-ndr_p_export_total(ndr_output)
+ndr_p_export_total(output_folder)
 }
 \arguments{
-\item{ndr_output}{output of the ndr function. vector of file paths.}
+\item{output_folder}{path to ndr output folder}
 }
 \description{
 Calculate total P export
+}
+\examples{
+\dontrun{
+ndr_p_export_total("workspace")
+}
 }
