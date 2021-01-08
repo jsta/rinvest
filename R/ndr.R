@@ -2,7 +2,9 @@
 #'
 #' @param args named list of model arguments
 #' @param overwrite boolean
+#' @param quiet silence most output
 #'
+#' @importFrom reticulate py_capture_output
 #' @export
 #'
 #' @examples \dontrun{
@@ -10,7 +12,7 @@
 #' ndr(ndr_testdata_args, overwrite = TRUE)
 #'
 #' }
-ndr <- function(args, overwrite = FALSE){
+ndr <- function(args, overwrite = FALSE, quiet = TRUE){
   reticulate::use_condaenv("r-invest")
 
   workspace_path <- as.character(args[names(args) == "workspace_dir"])
@@ -23,14 +25,18 @@ ndr <- function(args, overwrite = FALSE){
 
   preflight_checks_ndr(args)
 
-  args_py <- reticulate::r_to_py(args)
-  ndr <- invest$ndr$ndr
-  ndr$execute(args_py)
+  args_py      <- reticulate::r_to_py(args)
+  ndr          <- invest$ndr$ndr
+  ndr_messages <- ifelse(quiet,
+                         py_capture_output(ndr$execute(args_py)),
+                         ndr$execute(args_py)
+                         )
 
   res <- dir(workspace_path,
       full.names = TRUE, include.dirs = TRUE,
       recursive = TRUE, all.files = TRUE)
-  res
+
+  ifelse(quiet, return(invisible(res)), return(res))
 }
 
 #' Calculate total P export
@@ -47,7 +53,7 @@ ndr <- function(args, overwrite = FALSE){
 ndr_p_export_total <- function(output_folder){
   # output_folder <- "workspace"
   flist <- list.files(output_folder, include.dirs = TRUE, full.names = TRUE)
-  res_path <- flist[grep(".shp", flist)]
+  res_path <- flist[grep("watershed_results_ndr.shp", flist)]
 
   as.numeric(sf::st_read(res_path, quiet = TRUE)$p_exp_tot)
   # p_export_path <- flist[which(basename(flist) == "p_export.tif")]

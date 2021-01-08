@@ -8,17 +8,19 @@
 #'
 #' @importFrom snakecase to_sentence_case
 #' @importFrom stringr str_extract
+#' @importFrom utils write.csv
+#'
 #' @export
 #' @examples \dontrun{
-#' collect_run_ndr(ndr_testdata_args,
-#' conda_path = paste0("/home/", Sys.info()[["user"]], "/anaconda3/bin"),
-#' conda_env = paste0("/home/", Sys.info()[["user"]], "/Documents/Science/Models/invest/env")
+#' unlink("workspace_temp", recursive = TRUE)
+#' collect_run_ndr(ndr_testdata_args)
 #' )
 #' }
 collect_run_ndr <- function(args, out_dir = "workspace_temp",
                             conda_path = NULL, conda_env = NULL){
   # args <- ndr_testdata_args
-  unlink(out_dir)
+  # copy files
+  unlink(out_dir, recursive = TRUE)
   dir.create(out_dir, showWarnings = FALSE)
 
   ndr_files <- args[grep("_path", names(args))]
@@ -28,7 +30,6 @@ collect_run_ndr <- function(args, out_dir = "workspace_temp",
     out_path <- paste0(out_dir, "/", names(ndr_files[i]), file_ext)
 
     if(names(ndr_files[i]) == "watersheds_path"){
-      # browser()
       shx_path_original <- gsub(".shp", ".shx", ndr_files[i])
       shx_path <- paste0(out_dir, "/", names(ndr_files[i]), ".shx")
       file.copy(shx_path_original, shx_path)
@@ -39,35 +40,30 @@ collect_run_ndr <- function(args, out_dir = "workspace_temp",
     out_path
   })
 
+  # create an args csv file
+  args$calc_n <- snakecase::to_sentence_case(as.character(args$calc_n))
+  args$calc_p <- snakecase::to_sentence_case(as.character(args$calc_p))
+  args$workspace_dir <- out_dir
+  write.csv(data.frame(args), paste0(out_dir, "/args.csv"), quote = FALSE)
+
+  # create python script
+  py_path <- paste0(out_dir, "/", "ndr.py")
+  unlink(py_path)
+  writeLines(c(
+    'from natcap.invest.ndr import ndr',
+    'import pandas as pd',
+    'args = pd.read_csv("args.csv").reset_index(drop = True).to_dict("records")[0]',
+    'ndr.execute(args)'),
+             py_path)
+
+  # create environment file to enable python execution
   if(!is.null(conda_path) & !is.null(conda_env)){
     envrc_path <- paste0(out_dir, "/", ".envrc")
     unlink(envrc_path)
     writeLines(c(
       paste0('export PATH=', conda_path, ':$PATH'),
       paste0('source activate ', conda_env)),
-               envrc_path)
+      envrc_path)
   }
-
-  py_path <- paste0(out_dir, "/", "ndr.py")
-  unlink(py_path)
-  writeLines(c('from natcap.invest.ndr import ndr',
-               'args = {',
-               '\t "workspace_dir": ".",',
-               paste0('\t "dem_path": "', 'dem_path.tif",'),
-               paste0('\t "lulc_path": "', 'lulc_path.tif",'),
-               paste0('\t "runoff_proxy_path": "', 'runoff_proxy_path.tif",'),
-               paste0('\t "watersheds_path": "', 'watersheds_path.shp",'),
-               paste0('\t "biophysical_table_path": "', 'biophysical_table_path.csv",'),
-               paste0('\t "calc_p": ', snakecase::to_sentence_case(
-                 as.character(args[which(names(args) == "calc_p")])), ','),
-               paste0('\t "calc_n": ', snakecase::to_sentence_case(
-                 as.character(args[which(names(args) == "calc_n")])), ','),
-               paste0('\t "threshold_flow_accumulation": ', args[which(names(args) == "threshold_flow_accumulation")], ','),
-               paste0('\t "k_param": ', args[which(names(args) == "k_param")], ','),
-               paste0('\t "subsurface_eff_p": ', args[which(names(args) == "subsurface_eff_p")], ','),
-               paste0('\t "subsurface_critical_length_p": ', args[which(names(args) == "subsurface_critical_length_p")]),
-               "}",
-               "ndr.execute(args)"),
-             py_path)
 
 }

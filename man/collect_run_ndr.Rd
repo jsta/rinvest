@@ -25,9 +25,8 @@ Create native python script and move input files to a clean directory
 }
 \examples{
 \dontrun{
-collect_run_ndr(ndr_testdata_args,
-conda_path = paste0("/home/", Sys.info()[["user"]], "/anaconda3/bin"),
-conda_env = paste0("/home/", Sys.info()[["user"]], "/Documents/Science/Models/invest/env")
+unlink("workspace_temp", recursive = TRUE)
+collect_run_ndr(ndr_testdata_args)
 )
 }
 }

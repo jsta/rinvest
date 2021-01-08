@@ -4,12 +4,14 @@
 \alias{ndr}
 \title{Nutrient Delivery Ratio (NDR) Model}
 \usage{
-ndr(args, overwrite = FALSE)
+ndr(args, overwrite = FALSE, quiet = TRUE)
 }
 \arguments{
 \item{args}{named list of model arguments}
 
 \item{overwrite}{boolean}
+
+\item{quiet}{silence most output}
 }
 \description{
 Nutrient Delivery Ratio (NDR) Model
