@@ -43,7 +43,16 @@ collect_run_ndr <- function(args, out_dir = "workspace_temp",
   # create an args csv file
   args$calc_n <- snakecase::to_sentence_case(as.character(args$calc_n))
   args$calc_p <- snakecase::to_sentence_case(as.character(args$calc_p))
-  args$workspace_dir <- out_dir
+  args$workspace_dir <- "."
+  args[grep("path", names(args))] <- # point appropriate paths base dir
+    sapply(
+      names(args[grep("path", names(args))]),
+      function(y){
+        if(y == "watersheds_path"){ return(paste0(y, ".shp")) }else{
+          if(y == "biophysical_table_path"){return(paste0(y, "_temp.csv"))}else{
+            return(paste0(y, ".tif"))}}
+      })
+
   write.csv(data.frame(args), paste0(out_dir, "/args.csv"), quote = FALSE)
 
   # create python script
