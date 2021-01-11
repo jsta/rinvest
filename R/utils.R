@@ -55,7 +55,8 @@ collect_run_ndr <- function(args, out_dir = "workspace_temp",
             return(paste0(y, ".tif"))}}
       })
 
-  write.csv(data.frame(args), paste0(out_dir, "/args.csv"), quote = FALSE)
+  write.csv(data.frame(args), paste0(out_dir, "/args.csv"),
+            quote = FALSE, row.names = FALSE)
 
   # create python script
   py_path <- paste0(out_dir, "/", "ndr.py")
