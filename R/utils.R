@@ -30,9 +30,11 @@ collect_run_ndr <- function(args, out_dir = "workspace_temp",
     out_path <- paste0(out_dir, "/", names(ndr_files[i]), file_ext)
 
     if(names(ndr_files[i]) == "watersheds_path"){
-      shx_path_original <- gsub(".shp", ".shx", ndr_files[i])
-      shx_path <- paste0(out_dir, "/", names(ndr_files[i]), ".shx")
-      file.copy(shx_path_original, shx_path)
+      sapply(c(".shx", ".prj", ".dbf"), function(x){
+        shp_path_original <- gsub(".shp", x, ndr_files[i])
+        shp_path <- paste0(out_dir, "/", names(ndr_files[i]), x)
+        file.copy(shp_path_original, shp_path)
+      })
     }
 
     file.copy(
