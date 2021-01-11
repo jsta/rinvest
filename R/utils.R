@@ -3,20 +3,23 @@
 #'
 #' @param args named list of ndr arguments
 #' @param out_dir path to temporary working directory
+#' @param symlink symlink input files? FALSE copies files instead
 #' @param conda_path optional. path to conda executable
 #' @param conda_env optional. path to conda environment
 #'
 #' @importFrom snakecase to_sentence_case
 #' @importFrom stringr str_extract
 #' @importFrom utils write.csv
+#' @importFrom here here
 #'
 #' @export
 #' @examples \dontrun{
 #' unlink("workspace_temp", recursive = TRUE)
 #' collect_run_ndr(ndr_testdata_args)
+#' collect_run_ndr(ndr_testdata_args, symlink = TRUE)
 #' )
 #' }
-collect_run_ndr <- function(args, out_dir = "workspace_temp",
+collect_run_ndr <- function(args, out_dir = "workspace_temp", symlink = FALSE,
                             conda_path = NULL, conda_env = NULL){
   # args <- ndr_testdata_args
   # copy files
@@ -33,12 +36,21 @@ collect_run_ndr <- function(args, out_dir = "workspace_temp",
       sapply(c(".shx", ".prj", ".dbf"), function(x){
         shp_path_original <- gsub(".shp", x, ndr_files[i])
         shp_path <- paste0(out_dir, "/", names(ndr_files[i]), x)
-        file.copy(shp_path_original, shp_path)
+        if(symlink){
+          file.symlink(here::here(shp_path_original), here::here(shp_path))
+        }else{
+          file.copy(shp_path_original, shp_path)
+        }
       })
     }
 
-    file.copy(
-      as.character(ndr_files[i]), out_path)
+    if(symlink){
+      file.symlink(
+        here::here(as.character(ndr_files[i])), here::here(out_path))
+    }else{
+      file.copy(
+        as.character(ndr_files[i]), out_path)
+    }
     out_path
   })
 

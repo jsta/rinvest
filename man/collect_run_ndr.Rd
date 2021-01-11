@@ -7,6 +7,7 @@
 collect_run_ndr(
   args,
   out_dir = "workspace_temp",
+  symlink = FALSE,
   conda_path = NULL,
   conda_env = NULL
 )
@@ -15,6 +16,8 @@ collect_run_ndr(
 \item{args}{named list of ndr arguments}
 
 \item{out_dir}{path to temporary working directory}
+
+\item{symlink}{symlink input files? FALSE copies files instead}
 
 \item{conda_path}{optional. path to conda executable}
 
@@ -27,6 +30,7 @@ Create native python script and move input files to a clean directory
 \dontrun{
 unlink("workspace_temp", recursive = TRUE)
 collect_run_ndr(ndr_testdata_args)
+collect_run_ndr(ndr_testdata_args, symlink = TRUE)
 )
 }
 }
