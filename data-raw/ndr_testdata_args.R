@@ -12,7 +12,9 @@ ndr_testdata_args <- list(
   "threshold_flow_accumulation" = 1000,
   "k_param" = 2,
   "subsurface_eff_p" = 0.5,
-  "subsurface_critical_length_p" = 25
+  "subsurface_critical_length_p" = 25,
+  "subsurface_eff_n" = 0,
+  "subsurface_critical_length_n" = 0
 )
 
 usethis::use_data(ndr_testdata_args, overwrite = TRUE)
