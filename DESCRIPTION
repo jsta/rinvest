@@ -20,10 +20,13 @@ Imports: rstudioapi,
   dplyr,
   rlang,
   here
-Suggests: sf,
+Suggests: 
+    sf,
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat (>= 3.0.0)
 RoxygenNote: 7.1.1
 URL: https://github.com/jsta/rinvest
 BugReports: https://github.com/jsta/rinvest/issues
 VignetteBuilder: knitr
+Config/testthat/edition: 3
