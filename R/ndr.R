@@ -89,8 +89,31 @@ preflight_checks_ndr <- function(args, checks =
     stop("input rasters have differing spatial extents")
   }
 
+  # file_args_exist
+  ndr_file_args_exist(args)
+
 }
 
+#' check if file args exist
+ndr_file_args_exist <- function(args) {
+  # args <- args_default
+
+  file_args_index <- grep("path", names(args))
+  args_exist <- unlist(lapply(
+    file_args_index, function(i) {
+      file.exists(as.character(args[i]))
+    }))
+
+  if (any(!args_exist)) {
+    missing_args <- file_args_index[!args_exist]
+    missing_args <- names(args)[missing_args]
+    stop(paste0(
+      "The following ndr file arguments do not exist: ",
+      paste0(missing_args, collapse = ", ")
+    ))
+  }
+  invisible(NULL)
+}
 
 #' Summarize NDR inputs
 #'
