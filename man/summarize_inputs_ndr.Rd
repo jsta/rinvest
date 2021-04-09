@@ -25,6 +25,6 @@ Assumes that the lulc raster has "lulc" in the file name.
 }
 \examples{
 \dontrun{
-summarize_inputs_ndr(folder_path = "inst/extdata/NDR", args = ndr_testdata_args)
+summarize_inputs_ndr(folder_path = "inst/extdata/NDR", args = ndr_testdata_args())
 }
 }

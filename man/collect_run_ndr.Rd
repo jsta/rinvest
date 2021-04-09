@@ -29,8 +29,8 @@ Create native python script and move input files to a clean directory
 \examples{
 \dontrun{
 unlink("workspace_temp", recursive = TRUE)
-collect_run_ndr(ndr_testdata_args)
-collect_run_ndr(ndr_testdata_args, symlink = TRUE)
+collect_run_ndr(ndr_testdata_args())
+collect_run_ndr(ndr_testdata_args(), symlink = TRUE)
 )
 }
 }
