@@ -9,7 +9,7 @@
 #'
 #' @examples \dontrun{
 #'
-#' ndr(ndr_testdata_args, overwrite = TRUE)
+#' ndr(ndr_testdata_args(), overwrite = TRUE)
 #'
 #' }
 ndr <- function(args, overwrite = FALSE, quiet = TRUE){
@@ -61,7 +61,7 @@ ndr_p_export_total <- function(output_folder){
 }
 
 
-# preflight_checks_ndr(ndr_testdata_args)
+# preflight_checks_ndr(ndr_testdata_args())
 preflight_checks_ndr <- function(args, checks =
                                    c("file_args_exist", "int_rasters",
                                      "lulc_code_match", "raster_extent_match")){
@@ -132,7 +132,7 @@ ndr_file_args_exist <- function(args) {
 #'
 #' @details Assumes that the lulc raster has "lulc" in the file name.
 #' @examples \dontrun{
-#' summarize_inputs_ndr(folder_path = "inst/extdata/NDR", args = ndr_testdata_args)
+#' summarize_inputs_ndr(folder_path = "inst/extdata/NDR", args = ndr_testdata_args())
 #' }
 summarize_inputs_ndr <- function(folder_path, args = NULL){
   # folder_path <- "~/Documents/Science/JournalSubmissions/pgml_ploading/scripts/calibration/shared/"
@@ -197,4 +197,33 @@ summarize_outputs_ndr <- function(folder_path){
 
   list(avg_areal_p_load = avg_areal_p_load, total_p_export = total_p_export,
               avg_areal_p_export = avg_areal_p_export, rstack = rstack)
+}
+
+#' Test NDR arguments using included data
+#'
+#' @export
+#'
+#' @examples \dontrun{
+#' ndr_testdata_args()
+#' }
+ndr_testdata_args <- function(){
+  data_dir <- system.file("extdata/NDR", package = "rinvest")
+  ndr_testdata_args <- list(
+    "workspace_dir" = "workspace",
+    "dem_path" = paste0(data_dir, "/DEM_gura.tif"),
+    "lulc_path" = paste0(data_dir, "/land_use_gura.tif"),
+    "runoff_proxy_path" = paste0(data_dir, "/precipitation_gura.tif"),
+    "watersheds_path" = paste0(data_dir,  "/watershed_gura.shp"),
+    "biophysical_table_path" = paste0(data_dir,  "/biophysical_table_gura.csv"),
+    "calc_p" = TRUE,
+    "calc_n" = FALSE,
+    "threshold_flow_accumulation" = 1000,
+    "k_param" = 2,
+    "subsurface_eff_p" = 0.5,
+    "subsurface_critical_length_p" = 25,
+    "subsurface_eff_n" = 0,
+    "subsurface_critical_length_n" = 0
+  )
+
+  ndr_testdata_args
 }

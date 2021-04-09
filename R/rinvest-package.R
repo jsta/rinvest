@@ -6,8 +6,3 @@
 ## usethis namespace: start
 ## usethis namespace: end
 NULL
-
-#' Arguments to run NDR test data
-#' @docType data
-#' @name ndr_testdata_args
-NULL
