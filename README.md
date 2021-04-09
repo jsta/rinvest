@@ -4,8 +4,8 @@
 # rinvest
 
 <!-- badges: start -->
-<!-- [![R-CMD-check](https://github.com/jsta/rinvest/workflows/R-CMD-check/badge.svg)](https://github.com/jsta/rinvest/actions) -->
 
+[![R-CMD-check](https://github.com/jsta/rinvest/workflows/R-CMD-check/badge.svg)](https://github.com/jsta/rinvest/actions)
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
