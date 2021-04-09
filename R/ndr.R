@@ -63,8 +63,11 @@ ndr_p_export_total <- function(output_folder){
 
 # preflight_checks_ndr(ndr_testdata_args)
 preflight_checks_ndr <- function(args, checks =
-                                   c("int_rasters", "lulc_code_match",
-                                     "raster_extent_match")){
+                                   c("file_args_exist", "int_rasters",
+                                     "lulc_code_match", "raster_extent_match")){
+
+  # file_args_exist
+  ndr_file_args_exist(args)
 
   ## int_rasters
   # sf::gdal_utils("info", args$lulc_path)
@@ -88,9 +91,6 @@ preflight_checks_ndr <- function(args, checks =
     message(raster_extents)
     stop("input rasters have differing spatial extents")
   }
-
-  # file_args_exist
-  ndr_file_args_exist(args)
 
 }
 
