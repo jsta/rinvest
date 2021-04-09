@@ -83,9 +83,6 @@ jobs:
           Rscript -e "remotes::install_local()"
           Rscript -e "rinvest::install_invest()"
 
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
-
       - name: Check
         env:
           _R_CHECK_CRAN_INCOMING_REMOTE_: false
