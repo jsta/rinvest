@@ -62,6 +62,7 @@ ndr_p_export_total <- function(output_folder){
 
 
 # preflight_checks_ndr(ndr_testdata_args())
+#' @import rgdal
 preflight_checks_ndr <- function(args, checks =
                                    c("file_args_exist", "int_rasters",
                                      "lulc_code_match", "raster_extent_match")){

@@ -19,7 +19,8 @@ Imports: rstudioapi,
   stringr,
   dplyr,
   rlang,
-  here
+  here,
+  rgdal
 Suggests: 
     sf,
     knitr,
