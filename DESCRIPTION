@@ -1,6 +1,6 @@
 Package: rinvest
 Type: Package
-Title: InVEST: ecosystem service and valuation models
+Title: InVEST: Ecosystem Service and Valuation Models
 Version: 0.1
 Description: Wrapper for the 'natcap.invest` python package
   <https://github.com/natcap/invest>, with example data for running 
