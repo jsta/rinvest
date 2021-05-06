@@ -97,6 +97,7 @@ preflight_checks_ndr <- function(args, checks =
 }
 
 #' check if file args exist
+#' @noRd
 ndr_file_args_exist <- function(args) {
   # args <- args_default
 
