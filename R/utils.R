@@ -37,7 +37,9 @@ collect_run_ndr <- function(args, out_dir = "workspace_temp", symlink = FALSE,
         shp_path_original <- gsub(".shp", x, ndr_files[i])
         shp_path <- paste0(out_dir, "/", names(ndr_files[i]), x)
         if(symlink){
-          file.symlink(here::here(shp_path_original), here::here(shp_path))
+          file.symlink(
+            here::here(shp_path_original), file.path(getwd(), shp_path)
+            )
         }else{
           file.copy(shp_path_original, shp_path)
         }
@@ -46,7 +48,8 @@ collect_run_ndr <- function(args, out_dir = "workspace_temp", symlink = FALSE,
 
     if(symlink){
       file.symlink(
-        here::here(as.character(ndr_files[i])), here::here(out_path))
+        here::here(as.character(ndr_files[i])), file.path(getwd(), out_path)
+        )
     }else{
       file.copy(
         as.character(ndr_files[i]), out_path)
