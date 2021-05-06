@@ -7,19 +7,19 @@
 #' @importFrom reticulate py_capture_output
 #' @export
 #'
-#' @examples \dontrun{
+#' @examples
+#' \dontrun{
 #'
 #' ndr(ndr_testdata_args(), overwrite = TRUE)
-#'
 #' }
-ndr <- function(args, overwrite = FALSE, quiet = TRUE){
+ndr <- function(args, overwrite = FALSE, quiet = TRUE) {
   reticulate::use_condaenv("r-invest")
 
   workspace_path <- as.character(args[names(args) == "workspace_dir"])
-  if(dir.exists(workspace_path) & overwrite){
+  if (dir.exists(workspace_path) & overwrite) {
     unlink(workspace_path)
   }
-  if(dir.exists(workspace_path) & !overwrite){
+  if (dir.exists(workspace_path) & !overwrite) {
     stop("Output folder already exists. Consider setting overwrite option.")
   }
 
@@ -28,13 +28,13 @@ ndr <- function(args, overwrite = FALSE, quiet = TRUE){
   args_py      <- reticulate::r_to_py(args)
   ndr          <- invest$ndr$ndr
   ndr_messages <- ifelse(quiet,
-                         py_capture_output(ndr$execute(args_py)),
-                         ndr$execute(args_py)
-                         )
+    py_capture_output(ndr$execute(args_py)),
+    ndr$execute(args_py)
+  )
 
   res <- dir(workspace_path,
-      full.names = TRUE, include.dirs = TRUE,
-      recursive = TRUE, all.files = TRUE)
+    full.names = TRUE, include.dirs = TRUE,
+    recursive = TRUE, all.files = TRUE)
 
   ifelse(quiet, return(invisible(res)), return(res))
 }
@@ -47,10 +47,11 @@ ndr <- function(args, overwrite = FALSE, quiet = TRUE){
 #' @importFrom utils read.csv
 #' @export
 #'
-#' @examples \dontrun{
+#' @examples
+#' \dontrun{
 #' ndr_p_export_total("workspace")
 #' }
-ndr_p_export_total <- function(output_folder){
+ndr_p_export_total <- function(output_folder) {
   # output_folder <- "workspace"
   flist <- list.files(output_folder, include.dirs = TRUE, full.names = TRUE)
   res_path <- flist[grep("watershed_results_ndr.shp", flist)]
@@ -65,30 +66,30 @@ ndr_p_export_total <- function(output_folder){
 #' @import rgdal
 preflight_checks_ndr <- function(args, checks =
                                    c("file_args_exist", "int_rasters",
-                                     "lulc_code_match", "raster_extent_match")){
+                                     "lulc_code_match", "raster_extent_match")) {
 
   # file_args_exist
   ndr_file_args_exist(args)
 
   ## int_rasters
   # sf::gdal_utils("info", args$lulc_path)
-  if(length(grep("INT", raster::dataType(raster::raster(args$lulc_path)))) == 0){
+  if (length(grep("INT", raster::dataType(raster::raster(args$lulc_path)))) == 0) {
     stop("lulc raster not of type integer")
   }
 
   # lulc_code_match
   lulc_raster <- raster::unique(raster::raster(args$lulc_path))
   lulc_biophys <- read.csv(args$biophysical_table_path, stringsAsFactors = FALSE)$lucode
-  if(!all(lulc_raster %in% lulc_biophys)){
+  if (!all(lulc_raster %in% lulc_biophys)) {
     stop(paste0(lulc_raster[!(lulc_raster %in% lulc_biophys)],
-                " undefined in biophys table"))
+      " undefined in biophys table"))
   }
 
   # raster_extent_match
   raster_extents <- lapply(
     list(args$lulc_path, args$dem_path, args$runoff_proxy_path),
     function(x) raster::extent(raster::raster(x)))
-  if(!all(sapply(raster_extents, FUN = identical, raster_extents[[1]]))){
+  if (!all(sapply(raster_extents, FUN = identical, raster_extents[[1]]))) {
     message(raster_extents)
     stop("input rasters have differing spatial extents")
   }
@@ -132,20 +133,21 @@ ndr_file_args_exist <- function(args) {
 #' of the number of each type and load_p from the biophys table
 #'
 #' @details Assumes that the lulc raster has "lulc" in the file name.
-#' @examples \dontrun{
+#' @examples
+#' \dontrun{
 #' summarize_inputs_ndr(folder_path = "inst/extdata/NDR", args = ndr_testdata_args())
 #' }
-summarize_inputs_ndr <- function(folder_path, args = NULL){
+summarize_inputs_ndr <- function(folder_path, args = NULL) {
   # folder_path <- "~/Documents/Science/JournalSubmissions/pgml_ploading/scripts/calibration/shared/"
 
   flist       <- list.files(folder_path, "*.tif",
-                      include.dirs = TRUE, full.names = TRUE)
+    include.dirs = TRUE, full.names = TRUE)
   lulc_path   <- flist[c(grep("lulc", flist), grep("land_use", flist))]
   lulc_path   <- lulc_path[which.min(nchar(lulc_path))]
   lulc_raster <- raster::raster(lulc_path)
 
   biophys_path  <- list.files(folder_path, "biophys",
-                             include.dirs = TRUE, full.names = TRUE)
+    include.dirs = TRUE, full.names = TRUE)
   biophys_table <- read.csv(biophys_path, stringsAsFactors = FALSE)
 
   # tabulate the number/percent of lulc cells of each type
@@ -159,7 +161,7 @@ summarize_inputs_ndr <- function(folder_path, args = NULL){
     dplyr::mutate(total_load_p = .data$load_p * .data$total_cells) %>%
     dplyr::mutate(percent_load_p = round(prop.table(.data$total_load_p) * 100, 2)) %>%
     dplyr::select(.data$description, .data$lucode:.data$percent_cells,
-                  .data$total_load_p, .data$percent_load_p, .data$load_p)
+      .data$total_load_p, .data$percent_load_p, .data$load_p)
 
   res
 }
@@ -170,10 +172,11 @@ summarize_inputs_ndr <- function(folder_path, args = NULL){
 #'
 #' @export
 #'
-#' @examples \dontrun{
+#' @examples
+#' \dontrun{
 #' output_summary <- summarize_outputs_ndr(folder_path = "workspace")
 #' }
-summarize_outputs_ndr <- function(folder_path){
+summarize_outputs_ndr <- function(folder_path) {
   # folder_path <- "workspace"
 
   # the average areal P load in the catchment
@@ -192,22 +195,23 @@ summarize_outputs_ndr <- function(folder_path){
 
   # a list of output rasters
   flist       <- list.files(paste0(folder_path, "/intermediate_outputs"),
-                            pattern = "*.tif",
-                            include.dirs = TRUE, full.names = TRUE)
+    pattern = "*.tif",
+    include.dirs = TRUE, full.names = TRUE)
   rstack <- raster::stack(flist)
 
   list(avg_areal_p_load = avg_areal_p_load, total_p_export = total_p_export,
-              avg_areal_p_export = avg_areal_p_export, rstack = rstack)
+    avg_areal_p_export = avg_areal_p_export, rstack = rstack)
 }
 
 #' Test NDR arguments using included data
 #'
 #' @export
 #'
-#' @examples \dontrun{
+#' @examples
+#' \dontrun{
 #' ndr_testdata_args()
 #' }
-ndr_testdata_args <- function(){
+ndr_testdata_args <- function() {
   data_dir <- system.file("extdata/NDR", package = "rinvest")
   ndr_testdata_args <- list(
     "workspace_dir" = "workspace",

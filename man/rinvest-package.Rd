@@ -4,7 +4,7 @@
 \name{rinvest-package}
 \alias{rinvest}
 \alias{rinvest-package}
-\title{rinvest: InVEST: ecosystem service and valuation models}
+\title{rinvest: InVEST: Ecosystem Service and Valuation Models}
 \description{
 Wrapper for the 'natcap.invest` python package
   <https://github.com/natcap/invest>, with example data for running 
