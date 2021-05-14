@@ -43,7 +43,7 @@ ndr <- function(args, overwrite = FALSE, quiet = TRUE) {
 #'
 #' @param output_folder path to ndr output folder
 #'
-#' @importFrom raster raster cellStats
+#' # @importFrom raster raster cellStats
 #' @importFrom utils read.csv
 #' @export
 #'
@@ -63,13 +63,18 @@ ndr_p_export_total <- function(output_folder) {
 
 
 # preflight_checks_ndr(ndr_testdata_args())
-#' @import rgdal
+# @import rgdal
 preflight_checks_ndr <- function(args, checks =
                                    c("file_args_exist", "int_rasters",
                                      "lulc_code_match", "raster_extent_match")) {
 
   # file_args_exist
   ndr_file_args_exist(args)
+
+  # don't run raster checks if not installed
+  if (!requireNamespace("raster", quietly = TRUE)) {
+    return(invisible(NULL))
+  }
 
   ## int_rasters
   # sf::gdal_utils("info", args$lulc_path)

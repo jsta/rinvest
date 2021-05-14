@@ -14,15 +14,15 @@ Depends:
     reticulate,
     R (>= 2.10)
 Imports: rstudioapi,
-  raster,
   snakecase, 
   stringr,
   dplyr,
   rlang,
-  here,
-  rgdal
+  here  
 Suggests: 
     sf,
+    raster,
+    rgdal,
     knitr,
     rmarkdown,
     testthat (>= 3.0.0)

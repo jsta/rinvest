@@ -7,7 +7,9 @@
 ndr_p_export_total(output_folder)
 }
 \arguments{
-\item{output_folder}{path to ndr output folder}
+\item{output_folder}{path to ndr output folder
+
+# @importFrom raster raster cellStats}
 }
 \description{
 Calculate total P export
