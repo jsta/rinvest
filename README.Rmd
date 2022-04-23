@@ -32,7 +32,7 @@ You can install `rinvest` with:
 ```{r, eval=FALSE}
 # install.packages("devtools")
 devtools::install_github("jsta/rinvest")
-install_invest()
+rinvest::install_invest()
 ```
 
 ## Example
@@ -66,7 +66,7 @@ ndr_file_paths
 ```{r, eval=FALSE, message=FALSE}
 library(raster)
 
-plot(raster("workspace/p_export.tif"), main = "P export")
+plot(raster("workspace/p_surface_export.tif"), main = "P export")
 ```
 
 ![](man/figures/README-unnamed-chunk-4-1.png)
