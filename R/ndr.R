@@ -13,7 +13,7 @@
 #' ndr(ndr_testdata_args(), overwrite = TRUE)
 #' }
 ndr <- function(args, overwrite = FALSE, quiet = TRUE) {
-  reticulate::use_condaenv("r-invest")
+  reticulate::use_condaenv("r-invest", required=TRUE)
 
   workspace_path <- as.character(args[names(args) == "workspace_dir"])
   if (dir.exists(workspace_path) & overwrite) {
