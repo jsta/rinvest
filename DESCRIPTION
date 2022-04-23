@@ -8,7 +8,7 @@ Description: Wrapper for the 'natcap.invest` python package
 License: GPL
 Encoding: UTF-8
 LazyData: true
-Authors@R: person("Joseph", "Stachelek", comment = c(ORCID = "0000-0002-5924-2464"), role = c("aut", "cre"), 
+Authors@R: person("Jemma", "Stachelek", comment = c(ORCID = "0000-0002-5924-2464"), role = c("aut", "cre"), 
  email = "stachel2@msu.edu")
 Depends: 
     reticulate,
@@ -26,7 +26,7 @@ Suggests:
     knitr,
     rmarkdown,
     testthat (>= 3.0.0)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 URL: https://github.com/jsta/rinvest
 BugReports: https://github.com/jsta/rinvest/issues
 VignetteBuilder: knitr

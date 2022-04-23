@@ -6,9 +6,7 @@
 \alias{rinvest-package}
 \title{rinvest: InVEST: Ecosystem Service and Valuation Models}
 \description{
-Wrapper for the 'natcap.invest` python package
-  <https://github.com/natcap/invest>, with example data for running 
-  the Nutrient Delivery Ratio (NDR) model.
+Wrapper for the 'natcap.invest` python package <https://github.com/natcap/invest>, with example data for running the Nutrient Delivery Ratio (NDR) model.
 }
 \seealso{
 Useful links:
@@ -19,7 +17,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Joseph Stachelek \email{stachel2@msu.edu} (\href{https://orcid.org/0000-0002-5924-2464}{ORCID})
+\strong{Maintainer}: Jemma Stachelek \email{stachel2@msu.edu} (\href{https://orcid.org/0000-0002-5924-2464}{ORCID})
 
 }
 \keyword{internal}
