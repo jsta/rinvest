@@ -60,9 +60,9 @@ ndr <- function(args, overwrite = FALSE, quiet = TRUE) {
 ndr_p_export_total <- function(output_folder) {
   # output_folder <- "workspace"
   flist <- list.files(output_folder, include.dirs = TRUE, full.names = TRUE)
-  res_path <- flist[grep("watershed_results_ndr.shp", flist)]
+  res_path <- flist[grep("watershed_results_ndr.gpkg", flist)]
 
-  as.numeric(sf::st_read(res_path, quiet = TRUE)$p_exp_tot)
+  as.numeric(sf::st_read(res_path, quiet = TRUE)$p_surface_export)
   # p_export_path <- flist[which(basename(flist) == "p_export.tif")]
   # raster::cellStats(raster::raster(p_export_path), "sum")
 }
