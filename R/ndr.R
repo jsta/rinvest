@@ -11,9 +11,10 @@
 #' \dontrun{
 #'
 #' ndr(ndr_testdata_args(), overwrite = TRUE)
+#' ndr(ndr_testdata_args(), overwrite = TRUE, quiet = FALSE)
 #' }
 ndr <- function(args, overwrite = FALSE, quiet = TRUE) {
-  reticulate::use_condaenv("r-invest", required=TRUE)
+  reticulate::use_condaenv("r-invest", required = TRUE)
 
   workspace_path <- as.character(args[names(args) == "workspace_dir"])
   if (dir.exists(workspace_path) & overwrite) {
@@ -26,17 +27,22 @@ ndr <- function(args, overwrite = FALSE, quiet = TRUE) {
   preflight_checks_ndr(args)
 
   args_py      <- reticulate::r_to_py(args)
-  ndr          <- invest$ndr$ndr
-  ndr_messages <- ifelse(quiet,
-    py_capture_output(ndr$execute(args_py)),
-    ndr$execute(args_py)
-  )
+  ndr          <- invest$ndr$ndr  
+  if(quiet){
+    ndr_messages <- py_capture_output(ndr$execute(args_py))
+  }else{
+    ndr_messages <- ndr$execute(args_py)
+  }
 
   res <- dir(workspace_path,
     full.names = TRUE, include.dirs = TRUE,
     recursive = TRUE, all.files = TRUE)
 
-  ifelse(quiet, return(invisible(res)), return(res))
+  if(quiet) {
+    return(invisible(res))
+  }else {
+    return(res)
+  }
 }
 
 #' Calculate total P export
