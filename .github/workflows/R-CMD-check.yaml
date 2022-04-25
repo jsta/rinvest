@@ -68,6 +68,7 @@ jobs:
       - name: Install Miniconda
         run: |
           Rscript -e "remotes::install_github('rstudio/reticulate')"
+          echo "options(reticulate.conda_binary = reticulate:::miniconda_conda())" >> .Rprofile
       - if: runner.os == 'macOS'
         run: echo "options(reticulate.conda_binary = reticulate:::miniconda_conda())" >> .Rprofile
 
