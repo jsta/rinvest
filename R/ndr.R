@@ -27,10 +27,10 @@ ndr <- function(args, overwrite = FALSE, quiet = TRUE) {
   preflight_checks_ndr(args)
 
   args_py      <- reticulate::r_to_py(args)
-  ndr          <- invest$ndr$ndr  
-  if(quiet){
+  ndr          <- invest$ndr$ndr
+  if (quiet) {
     ndr_messages <- py_capture_output(ndr$execute(args_py))
-  }else{
+  } else {
     ndr_messages <- ndr$execute(args_py)
   }
 
@@ -38,9 +38,9 @@ ndr <- function(args, overwrite = FALSE, quiet = TRUE) {
     full.names = TRUE, include.dirs = TRUE,
     recursive = TRUE, all.files = TRUE)
 
-  if(quiet) {
+  if (quiet) {
     return(invisible(res))
-  }else {
+  } else {
     return(res)
   }
 }
@@ -84,13 +84,15 @@ preflight_checks_ndr <- function(args, checks =
 
   ## int_rasters
   # sf::gdal_utils("info", args$lulc_path)
-  if (length(grep("INT", raster::dataType(raster::raster(args$lulc_path)))) == 0) {
+  if (length(
+    grep("INT", raster::dataType(raster::raster(args$lulc_path)))) == 0) {
     stop("lulc raster not of type integer")
   }
 
   # lulc_code_match
   lulc_raster <- raster::unique(raster::raster(args$lulc_path))
-  lulc_biophys <- read.csv(args$biophysical_table_path, stringsAsFactors = FALSE)$lucode
+  lulc_biophys <- read.csv(
+    args$biophysical_table_path, stringsAsFactors = FALSE)$lucode
   if (!all(lulc_raster %in% lulc_biophys)) {
     stop(paste0(lulc_raster[!(lulc_raster %in% lulc_biophys)],
       " undefined in biophys table"))
@@ -165,13 +167,18 @@ summarize_inputs_ndr <- function(folder_path, args = NULL) {
   # tabulate the number/percent of lulc cells of each type
   # return the product of cell number and load_p
   res <-
-    as.data.frame(table(raster::values(lulc_raster)), stringsAsFactors = FALSE) %>%
+    as.data.frame(table(
+      raster::values(lulc_raster)), stringsAsFactors = FALSE) %>%
     setNames(c("lucode", "total_cells")) %>%
-    dplyr::mutate(lucode = as.integer(.data$lucode)) %>%
-    dplyr::mutate(percent_cells = round(prop.table(.data$total_cells) * 100, 2)) %>%
+    dplyr::mutate(
+      lucode = as.integer(.data$lucode)) %>%
+    dplyr::mutate(
+      percent_cells = round(prop.table(.data$total_cells) * 100, 2)) %>%
     dplyr::left_join(biophys_table, by = "lucode") %>%
-    dplyr::mutate(total_load_p = .data$load_p * .data$total_cells) %>%
-    dplyr::mutate(percent_load_p = round(prop.table(.data$total_load_p) * 100, 2)) %>%
+    dplyr::mutate(
+      total_load_p = .data$load_p * .data$total_cells) %>%
+    dplyr::mutate(
+      percent_load_p = round(prop.table(.data$total_load_p) * 100, 2)) %>%
     dplyr::select(.data$description, .data$lucode:.data$percent_cells,
       .data$total_load_p, .data$percent_load_p, .data$load_p)
 
@@ -195,7 +202,8 @@ summarize_outputs_ndr <- function(folder_path) {
   flist <- list.files(folder_path, include.dirs = TRUE, full.names = TRUE)
   res_path <- flist[grep(".shp", flist)]
   res_shp <- sf::st_read(res_path, quiet = TRUE)
-  avg_areal_p_load <- as.numeric(res_shp$surf_p_ld / sf::st_area(res_shp)) # kg / m2
+  avg_areal_p_load <- as.numeric(
+    res_shp$surf_p_ld / sf::st_area(res_shp)) # kg / m2
   avg_areal_p_load <- avg_areal_p_load * 1000 # g / m2
 
   # total P export
