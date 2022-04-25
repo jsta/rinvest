@@ -11,3 +11,4 @@ workspace_temp/
 install.R
 README.html
 .httr-oauth
+.vscode
