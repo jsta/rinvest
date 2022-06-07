@@ -20,5 +20,6 @@ Nutrient Delivery Ratio (NDR) Model
 \dontrun{
 
 ndr(ndr_testdata_args(), overwrite = TRUE)
+ndr(ndr_testdata_args(), overwrite = TRUE, quiet = FALSE)
 }
 }

@@ -6,7 +6,7 @@
 \alias{rinvest-package}
 \title{rinvest: InVEST: Ecosystem Service and Valuation Models}
 \description{
-Wrapper for the 'natcap.invest` python package <https://github.com/natcap/invest>, with example data for running the Nutrient Delivery Ratio (NDR) model.
+Wrapper for the 'natcap.invest` python package \url{https://github.com/natcap/invest}, with example data for running the Nutrient Delivery Ratio (NDR) model.
 }
 \seealso{
 Useful links:

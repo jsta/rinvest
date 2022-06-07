@@ -45,6 +45,22 @@ ndr <- function(args, overwrite = FALSE, quiet = TRUE) {
   }
 }
 
+#' Preflight check of raster extent matching
+#'
+#' @export
+#' @examples \dontrun{
+#' raster_extent_match(ndr_testdata_args()$lulc_path, ndr_testdata_args()$dem_path, ndr_testdata_args()$runoff_proxy_path)
+#' }
+raster_extent_match <- function(lulc_path, dem_path, runoff_proxy_path) {
+  raster_extents <- lapply(
+    list(lulc_path, dem_path, runoff_proxy_path),
+    function(x) raster::extent(raster::raster(x)))
+  if (!all(sapply(raster_extents, FUN = identical, raster_extents[[1]]))) {
+    message(raster_extents)
+    stop("input rasters have differing spatial extents")
+  }
+}
+
 #' Calculate total P export
 #'
 #' @param output_folder path to ndr output folder
@@ -99,13 +115,8 @@ preflight_checks_ndr <- function(args, checks =
   }
 
   # raster_extent_match
-  raster_extents <- lapply(
-    list(args$lulc_path, args$dem_path, args$runoff_proxy_path),
-    function(x) raster::extent(raster::raster(x)))
-  if (!all(sapply(raster_extents, FUN = identical, raster_extents[[1]]))) {
-    message(raster_extents)
-    stop("input rasters have differing spatial extents")
-  }
+  raster_extent_match(args$lulc_path, args$dem_path, args$runoff_proxy_path)
+
 
 }
 
