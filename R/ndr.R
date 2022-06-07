@@ -45,6 +45,15 @@ ndr <- function(args, overwrite = FALSE, quiet = TRUE) {
   }
 }
 
+extent_to_df <- function(ext){
+      # ext <- raster::extent(raster::raster(lulc_path))
+      ext_str <- paste(ext)
+      ext_str <- gsub("extent\\(", "", ext_str)
+      ext_str <- gsub("\\)", "", ext_str)
+      ext_str <- strsplit(ext_str, ", ")[[1]]
+      setNames(data.frame(t(ext_str)), c("xmin", "xmax", "ymin", "ymax"))
+    }
+
 #' Preflight check of raster extent matching
 #'
 #' @export
@@ -56,7 +65,7 @@ raster_extent_match <- function(lulc_path, dem_path, runoff_proxy_path) {
     list(lulc_path, dem_path, runoff_proxy_path),
     function(x) raster::extent(raster::raster(x)))
   if (!all(sapply(raster_extents, FUN = identical, raster_extents[[1]]))) {
-    message(raster_extents)
+    print(do.call("rbind", lapply(raster_extents, extent_to_df)))
     stop("input rasters have differing spatial extents")
   }
 }
