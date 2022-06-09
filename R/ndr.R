@@ -64,7 +64,7 @@ raster_extent_match <- function(lulc_path, dem_path, runoff_proxy_path) {
   raster_extents <- lapply(
     list(lulc_path, dem_path, runoff_proxy_path),
     function(x) raster::extent(raster::raster(x)))
-  if (!all(sapply(raster_extents, FUN = identical, raster_extents[[1]]))) {
+  if (!all(sapply(raster_extents, FUN = function(x) isTRUE(all.equal(x, raster_extents[[1]]))))) {
     print(do.call("rbind", lapply(raster_extents, extent_to_df)))
     warning("input rasters have differing spatial extents")
   }
