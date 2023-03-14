@@ -250,6 +250,48 @@ summarize_outputs_ndr <- function(folder_path) {
 #' @examples
 #' \dontrun{
 #' ndr_testdata_args()
+#'
+#' # $workspace_dir
+#' # [1] "workspace"
+#'
+#' # $dem_path
+#' # [1] "~/rinvest/inst/extdata/NDR/DEM_gura.tif"
+#'
+#' # $lulc_path
+#' # [1] "~/rinvest/inst/extdata/NDR/land_use_gura.tif"
+#'
+#' # $runoff_proxy_path
+#' # [1] "~/rinvest/inst/extdata/NDR/precipitation_gura.tif"
+#'
+#' # $watersheds_path
+#' # [1] "~/rinvest/inst/extdata/NDR/watershed_gura.shp"
+#'
+#' # $biophysical_table_path
+#' # [1] "~/rinvest/inst/extdata/NDR/biophysical_table_gura.csv"
+#'
+#' # $calc_p
+#' # [1] TRUE
+#'
+#' # $calc_n
+#' # [1] FALSE
+#'
+#' # $threshold_flow_accumulation
+#' # [1] 1000
+#'
+#' # $k_param
+#' # [1] 2
+#'
+#' # $subsurface_eff_p
+#' # [1] 0.5
+#'
+#' # $subsurface_critical_length_p
+#' # [1] 25
+#'
+#' # $subsurface_eff_n
+#' # [1] 0
+#'
+#' # $subsurface_critical_length_n
+#' # [1] 0
 #' }
 ndr_testdata_args <- function() {
   data_dir <- system.file("extdata/NDR", package = "rinvest")

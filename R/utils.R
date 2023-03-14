@@ -17,7 +17,6 @@
 #' unlink("workspace_temp", recursive = TRUE)
 #' collect_run_ndr(ndr_testdata_args())
 #' collect_run_ndr(ndr_testdata_args(), symlink = TRUE)
-#' )
 #' }
 collect_run_ndr <- function(args, out_dir = "workspace_temp", symlink = FALSE,
                             conda_path = NULL, conda_env = NULL){
